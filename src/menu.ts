@@ -1,8 +1,17 @@
 import readlinesync = require("readline-sync");
 import { colors } from "./util/colors";
+import { Conta } from './model/conta';
 
 export function main() {
   let opcao: number;
+
+  const conta: Conta = new Conta(1, 123, 1, "Adriana", 1000);
+  conta.visualizar();
+  conta.sacar(10500);
+  conta.visualizar();
+  conta.depositar(5000);
+  conta.visualizar();
+
   while (true) {
 
 
