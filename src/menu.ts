@@ -4,12 +4,13 @@ import { Conta } from './model/conta';
 import { ContaCorrente } from './model/contaCorrente';
 import { ContaPoupanca } from "./model/contaPoupanca";
 import { ContaController } from './controller/contaController';
+import { read } from "fs";
 
 export function main() {
 
   let contas: ContaController = new ContaController();
 
-  let opcao, numero, agencia, tipo, saldo, limite, aniversario: number;
+  let opcao, numero, agencia, tipo, saldo, limite, aniversario, valor, numeroDestino: number;
   let titular: string;
   const tiposContas = ['Conta Corrente', 'Conta Poupança'];
 
@@ -173,6 +174,14 @@ export function main() {
         console.log(colors.fg.whitestrong,
           "\n\nSaque\n\n", colors.reset);
 
+        console.log("\n\nDigite o número da conta: \n\n");
+        numero = readlinesync.questionInt("");
+
+        console.log("\n\nDigite o valor do saque (R$): \n\n");
+        valor = readlinesync.questionFloat("");
+
+        contas.sacar(numero, valor);
+
         keypress()
         break;
 
@@ -180,12 +189,31 @@ export function main() {
         console.log(colors.fg.whitestrong,
           "\n\nDeposito\n\n", colors.reset);
 
+        console.log("\n\nDigite o número da conta: \n\n");
+        numero = readlinesync.questionInt("");
+
+        console.log("\n\nDigite o valor do depósito (R$): ");
+        valor = readlinesync.questionFloat("");
+
+        contas.depositar(numero, valor);
+
         keypress()
         break;
 
       case 8:
         console.log(colors.fg.whitestrong,
           "\n\nTransferencia entre contas\n\n", colors.reset);
+
+        console.log("\n\nDigite o número da conta de origem: ");
+        numero = readlinesync.questionInt("");
+
+        console.log("\n\nDigite o número da conta de destino: ");
+        numeroDestino = readlinesync.questionInt("");
+
+        console.log("\n\nDigite o valor do depósito (R$): ");
+        valor = readlinesync.questionFloat("");
+
+        contas.transferir(numero, numeroDestino, valor);
 
         keypress()
         break;

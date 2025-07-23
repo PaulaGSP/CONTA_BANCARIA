@@ -50,14 +50,49 @@ export class ContaController implements ContaRepository {
       console.log(colors.fg.red,
         "\n\nA Conta número: \n\n" + numero + " não foi encontrada!", colors.reset);
   }
-  sacar(numero: number, valor: number): void {
-    throw new Error('Method not implemented.');
+  public sacar(numero: number, valor: number): void {
+    let conta = this.buscarNoArray(numero);
+
+    if (conta != null) {
+
+      if (conta.sacar(valor) == true)
+        console.log(colors.fg.green,
+          "\n\nO Saque na conta número: " + numero + " foi efetuado com sucesso!", colors.reset);
+
+    } else
+      console.log(colors.fg.red,
+        "\n\nA conta número: " + numero + " Não foi encontrada!", colors.reset);
+
   }
-  depositar(numero: number, valor: number): void {
-    throw new Error('Method not implemented.');
+  public depositar(numero: number, valor: number): void {
+    let conta = this.buscarNoArray(numero);
+
+    if (conta != null) {
+      conta.depositar(valor);
+      console.log(colors.fg.green,
+        "\n\nO Depósito na conta número: " + numero + " foi efetuado com sucesso!", colors.reset);
+
+    } else
+      console.log(colors.fg.red, "\n\nA conta número: " + numero + " não foi encrotada!", colors.reset);
+
   }
-  transferir(numeroOrigem: number, numeroDestino: number, valor: number): void {
-    throw new Error('Method not implemented.');
+  public transferir(numeroOrigem: number, numeroDestino: number, valor: number): void {
+    let contaOrigem = this.buscarNoArray(numeroOrigem);
+    let contaDestino = this.buscarNoArray(numeroDestino);
+
+    if (contaOrigem != null && contaDestino != null) {
+      if (contaOrigem.sacar(valor) == true) {
+        contaDestino.depositar(valor);
+        console.log(colors.fg.green,
+          "\n\nA Tranferência da conta número: " + numeroOrigem +
+          " para a conta número: " + numeroDestino + " foi efetuada com sucesso!",
+          colors.reset);
+
+      } else
+        console.log(colors.fg.red, "\n\nA conta número: " + numeroOrigem +
+          " e/ou a conta número: " + numeroDestino + " não foram encontradas!",
+          colors.reset);
+    }
 
   }
 
